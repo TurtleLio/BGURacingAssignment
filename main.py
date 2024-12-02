@@ -15,9 +15,17 @@ if __name__ == '__main__':
         middle_line_x.append((x_column[i]+x_column[i+1+int(len(x_column)/2)])/2)
         middle_line_y.append((y_column[i]+y_column[i+1+int(len(y_column)/2)])/2)
 
+    t = np.linspace(0, len(middle_line_x), len(middle_line_x))
+    spline_x = make_interp_spline(t, middle_line_x, k=3)
+    spline_y = make_interp_spline(t, middle_line_y, k=3)
+    t_smooth = np.linspace(0, len(middle_line_x), 2000)
+    x_smooth = spline_x(t_smooth)
+    y_smooth = spline_y(t_smooth)
+
     plt.figure(figsize=(10, 10))  # Optional: set figure size
     plt.scatter(x_column, y_column, marker='o')  # Scatter plot
-    plt.scatter(middle_line_x, middle_line_y, marker='o')
+    #plt.scatter(middle_line_x, middle_line_y, marker='o')
+    plt.plot(x_smooth, y_smooth, label='Smooth Path', color='blue')
     # Add labels and title
     plt.xlabel('X Values')
     plt.ylabel('Y Values')
